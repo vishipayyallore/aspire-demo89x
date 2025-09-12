@@ -1,3 +1,4 @@
+using HelloAspireApp.ServiceDefaults;
 using HelloAspireApp.Web;
 using HelloAspireApp.Web.Components;
 
