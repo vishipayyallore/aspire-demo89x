@@ -1,0 +1,48 @@
+{
+    "projectType": "aspire",
+    "description": "ASP.NET Core Aspire application with Azure Container Apps deployment and custom resource naming",
+    "frameworks": [
+        "aspire",
+        "blazor",
+        "webapi"
+    ],
+    "azure": {
+        "deployment": "container-apps",
+        "resourceNaming": "custom",
+        "environmentSuffix": "configurable"
+    },
+    "development": {
+        "defaultEnvironment": "Development",
+        "healthChecks": true,
+        "openTelemetry": true,
+        "serviceDiscovery": true
+    },
+    "infrastructure": {
+        "resolver": "FixedNameInfrastructureResolver",
+        "namePrefix": "sv",
+        "components": [
+            "Redis Cache",
+            "Container Apps",
+            "Container Registry",
+            "Log Analytics Workspace",
+            "Container App Environment"
+        ]
+    },
+    "copilot": {
+        "contextIncludes": [
+            "src/**/*.cs",
+            "src/**/*.csproj",
+            "*.sln",
+            "Directory.*.props",
+            "azure.yaml",
+            ".github/**",
+            "README.md"
+        ],
+        "excludes": [
+            "artifacts/**",
+            "bin/**",
+            "obj/**",
+            "wwwroot/lib/**"
+        ]
+    }
+}

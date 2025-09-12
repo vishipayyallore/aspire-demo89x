@@ -3,8 +3,7 @@ using Azure.Provisioning.AppContainers;
 using Azure.Provisioning.ContainerRegistry;
 using Azure.Provisioning.OperationalInsights;
 using Azure.Provisioning.Primitives;
-using Azure.Provisioning.Storage;
-using Humanizer.Configuration;
+using Azure.Provisioning.Resources;
 using Microsoft.Extensions.Configuration;
 
 internal class FixedNameInfrastructureResolver(IConfiguration configuration) : InfrastructureResolver
@@ -44,7 +43,23 @@ internal class FixedNameInfrastructureResolver(IConfiguration configuration) : I
                 containerAppEnvironment.Name = $"{UniqueNamePrefix}-cae-{environmentSuffix}";
                 break;
 
+            case ResourceGroup resourceGroup:
+                resourceGroup.Name = $"rg-{UniqueNamePrefix}-{resourceGroup.BicepIdentifier.ToLowerInvariant()}-{environmentSuffix}";
+                break;
+
             default:
+                // For any other resource types, apply a generic naming pattern
+                if (construct is NamedProvisionableConstruct namedConstruct && !string.IsNullOrEmpty(namedConstruct.BicepIdentifier))
+                {
+                    // Use reflection to set the Name property if it exists
+                    var nameProperty = construct.GetType().GetProperty("Name");
+                    if (nameProperty != null && nameProperty.CanWrite)
+                    {
+                        var genericName = $"{UniqueNamePrefix}-{namedConstruct.BicepIdentifier.ToLowerInvariant()}-{environmentSuffix}";
+                        nameProperty.SetValue(construct, genericName);
+                        Console.WriteLine($"[FixedNameInfrastructureResolver] Applied generic naming to {construct.GetType().Name}: {genericName}");
+                    }
+                }
                 break;
         }
     }
