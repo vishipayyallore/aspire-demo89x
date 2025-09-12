@@ -1,4 +1,3 @@
-using HelloAspireApp.ServiceDefaults;
 using HelloAspireApp.Web;
 using HelloAspireApp.Web.Components;
 
@@ -30,11 +29,10 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseStaticFiles();
 app.UseAntiforgery();
 
 app.UseOutputCache();
-
-app.MapStaticAssets();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
