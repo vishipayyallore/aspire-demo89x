@@ -1,4 +1,4 @@
-using HelloAspireApp.ServiceDefaults;
+using Microsoft.Extensions.Hosting;
 using HelloAspireApp.Web;
 using HelloAspireApp.Web.Components;
 

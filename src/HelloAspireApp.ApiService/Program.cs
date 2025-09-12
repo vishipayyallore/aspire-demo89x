@@ -1,4 +1,4 @@
-using HelloAspireApp.ServiceDefaults;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
