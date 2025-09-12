@@ -43,10 +43,6 @@ internal class FixedNameInfrastructureResolver(IConfiguration configuration) : I
                 containerAppEnvironment.Name = $"{UniqueNamePrefix}-cae-{environmentSuffix}";
                 break;
 
-            case ResourceGroup resourceGroup:
-                resourceGroup.Name = $"rg-{UniqueNamePrefix}-{resourceGroup.BicepIdentifier.ToLowerInvariant()}-{environmentSuffix}";
-                break;
-
             default:
                 // For any other resource types, apply a generic naming pattern
                 if (construct is NamedProvisionableConstruct namedConstruct && !string.IsNullOrEmpty(namedConstruct.BicepIdentifier))
