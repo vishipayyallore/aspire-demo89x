@@ -45,17 +45,17 @@ internal class FixedNameInfrastructureResolver(IConfiguration configuration) : I
 
             default:
                 // For any other resource types, apply a generic naming pattern
-                if (construct is NamedProvisionableConstruct namedConstruct && !string.IsNullOrEmpty(namedConstruct.BicepIdentifier))
-                {
-                    // Use reflection to set the Name property if it exists
-                    var nameProperty = construct.GetType().GetProperty("Name");
-                    if (nameProperty != null && nameProperty.CanWrite)
-                    {
-                        var genericName = $"{UniqueNamePrefix}-{namedConstruct.BicepIdentifier.ToLowerInvariant()}-{environmentSuffix}";
-                        nameProperty.SetValue(construct, genericName);
-                        Console.WriteLine($"[FixedNameInfrastructureResolver] Applied generic naming to {construct.GetType().Name}: {genericName}");
-                    }
-                }
+                //if (construct is NamedProvisionableConstruct namedConstruct && !string.IsNullOrEmpty(namedConstruct.BicepIdentifier))
+                //{
+                //    // Use reflection to set the Name property if it exists
+                //    var nameProperty = construct.GetType().GetProperty("Name");
+                //    if (nameProperty != null && nameProperty.CanWrite)
+                //    {
+                //        var genericName = $"{UniqueNamePrefix}-{namedConstruct.BicepIdentifier.ToLowerInvariant()}-{environmentSuffix}";
+                //        nameProperty.SetValue(construct, genericName);
+                //        Console.WriteLine($"[FixedNameInfrastructureResolver] Applied generic naming to {construct.GetType().Name}: {genericName}");
+                //    }
+                //}
                 break;
         }
     }
