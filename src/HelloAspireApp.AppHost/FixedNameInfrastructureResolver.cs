@@ -17,14 +17,22 @@ internal class FixedNameInfrastructureResolver(IConfiguration configuration) : I
         string environmentSuffix = Environment.GetEnvironmentVariable("AZURE_ENV_SUFFIX")
                                   ?? _configuration["AZURE_ENV_SUFFIX"]
                                   ?? "D";
-
         environmentSuffix = (environmentSuffix ?? "D").ToLowerInvariant();
+
+        string region = Environment.GetEnvironmentVariable("AZURE_LOCATION")
+                                  ?? _configuration["AZURE_LOCATION"]
+                                  ?? "D";
+        region = (region ?? "eastus").ToLowerInvariant();
 
         // Debug: Log the environment suffix being used
         Console.WriteLine($"[FixedNameInfrastructureResolver] Using environment suffix: {environmentSuffix} for {construct.GetType().Name}");
 
         switch (construct)
         {
+            case ResourceGroup resourceGroup:
+                resourceGroup.Name = $"{UniqueNamePrefix}-rg-{environmentSuffix}-{region}";
+                break;
+
             case Azure.Provisioning.Redis.RedisResource redisCache:
                 redisCache.Name = $"{UniqueNamePrefix}-{redisCache.BicepIdentifier.ToLowerInvariant()}-{environmentSuffix}";
                 break;
@@ -34,7 +42,7 @@ internal class FixedNameInfrastructureResolver(IConfiguration configuration) : I
                 break;
 
             case ContainerRegistryService containerRegistry:
-                containerRegistry.Name = $"{UniqueNamePrefix}acr{environmentSuffix.ToLower()}";
+                containerRegistry.Name = $"{UniqueNamePrefix}acr{environmentSuffix}";
                 break;
 
             case OperationalInsightsWorkspace logAnalyticsWorkspace:
