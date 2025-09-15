@@ -18,6 +18,8 @@ internal class FixedNameInfrastructureResolver(IConfiguration configuration) : I
                                   ?? _configuration["AZURE_ENV_SUFFIX"]
                                   ?? "D";
 
+        environmentSuffix = (environmentSuffix ?? "D").ToLowerInvariant();
+
         // Debug: Log the environment suffix being used
         Console.WriteLine($"[FixedNameInfrastructureResolver] Using environment suffix: {environmentSuffix} for {construct.GetType().Name}");
 
