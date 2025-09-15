@@ -40,9 +40,9 @@ jobs:
           - environment: Dev
             region: eastus
             resourceGroup: rg-Dev-eastus
-          - environment: Dev
-            region: centralus
-            resourceGroup: rg-Dev-centralus
+          # - environment: Dev
+          #   region: centralus
+          #   resourceGroup: rg-Dev-centralus
       fail-fast: false # Continue with other regions if one fails
     uses: ./.github/workflows/demo89x-deploy.yaml
     needs: build-and-test
