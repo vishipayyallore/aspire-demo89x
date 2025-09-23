@@ -11,7 +11,12 @@ builder.Services.Configure<AzureProvisioningOptions>(options =>
     options.ProvisioningBuildOptions.InfrastructureResolvers.Insert(0, new FixedNameInfrastructureResolver(builder.Configuration));
 });
 
-var cache = builder.AddRedis("cache");
+// What's the existing Redis Cache name and resource group?
+var existingRedisName = builder.AddParameter("existingRedisName");
+var existingRedisResourceGroup = builder.AddParameter("existingRedisResourceGroup");
+
+var cache = builder.AddAzureRedis("cache")
+    .AsExisting(existingRedisName, existingRedisResourceGroup);
 
 var apiService = builder.AddProject<Projects.HelloAspireApp_ApiService>("apiservice")
     .WithHttpHealthCheck("/health");
